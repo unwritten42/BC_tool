@@ -198,6 +198,14 @@ async function inspect(extensionRoot, baseline = false) {
       const factboxModeRow = page.locator('.bc-ui-feature-factbox .bc-ui-mode-row');
       assert.equal(await factboxModeRow.locator('.info-tooltip').count(), 1);
       assert.equal(await factboxModeRow.locator(':scope > :last-child').getAttribute('class'), 'info-tooltip');
+      const popupModeRow = page.locator('.bc-ui-popup-mode-row');
+      assert.deepEqual(await page.locator('#popupLayout option').allTextContents(), ['Pop-up classico', 'Pop-up verticale']);
+      const dropdownLayout = await page.locator('#layoutMode, #factboxMode, #popupLayout').evaluateAll(selects =>
+        selects.map(select => ({ width:select.getBoundingClientRect().width, offset:select.getBoundingClientRect().left - select.parentElement.getBoundingClientRect().left, rowWidth:select.parentElement.getBoundingClientRect().width }))
+      );
+      assert.ok(dropdownLayout.every(item => Math.abs(item.width - 155) < 1), 'all settings dropdowns have the same fixed width');
+      assert.ok(dropdownLayout.every(item => Math.abs(item.offset - item.rowWidth / 2) <= 4), 'all settings dropdowns start at the middle of their section');
+      assert.equal((await popupModeRow.locator('label').innerText()).trim(), 'Layout pop-up');
       assert.equal(await page.locator('#autoShowMore').isChecked(), false);
       assert.equal(await page.locator('#pageFieldCopyGlobalPreferences').isChecked(), true, 'global page preferences default to enabled');
       assert.equal(await page.locator('#pageFieldCopyGlobalPreferences').evaluate(input => input.labels.length), 1, 'scope checkbox remains natively label-accessible');
