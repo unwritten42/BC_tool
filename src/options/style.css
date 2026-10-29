@@ -201,7 +201,6 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible{
 .bc-ui-feature-heading{ margin:4px 0 0 }
 .bc-copy-reset-row{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; min-width:0 }
 .bc-copy-settings-row{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; min-width:0 }
-.bc-copy-global-options > label{ margin:8px 0 0 14px }
 .bc-ui-mode-row{ display:flex; align-items:center; gap:10px; min-width:0 }
 .bc-ui-mode-row > label{ flex:0 0 auto }
 .bc-ui-mode-row > select{ flex:1; min-width:0 }
@@ -1509,6 +1508,8 @@ body > .settings-brand{
 .bc-ui-feature{gap:8px;width:100%}
 .bc-ui-feature-popup-layout{padding-top:12px;border-top:1px solid var(--line)}
 .bc-ui-col-layout > .bc-ui-feature-layout{margin-top:0}
+.bc-ui-mode-row > select{flex:0 1 155px;max-width:155px}
+.bc-ui-mode-row > .info-tooltip{margin-left:auto}
 .bc-ui-feature-heading{margin-top:8px}
 .bc-subbox{padding:12px 0 12px 14px;border:0;border-left:2px solid var(--line);border-radius:0;background:transparent}
 .bc-ui-col-sort{grid-column:1/-1}

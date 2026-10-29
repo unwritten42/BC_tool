@@ -252,6 +252,8 @@
     Object.entries(UI_FLAG_HELP).forEach(([id,help])=>{
       const input=document.getElementById(id), label=input && input.closest('label');
       if(!label || label.parentElement?.classList.contains('setting-with-info')) return;
+      const row=label.parentElement?.classList.contains('bc-ui-mode-row')?label.parentElement:null;
+      if(row){ if(!row.querySelector('.info-tooltip')) row.append(infoButton(help,label.textContent.trim())); return; }
       const wrap=document.createElement('span'); wrap.className='setting-with-info';
       label.parentNode.insertBefore(wrap,label); wrap.append(label,infoButton(help,label.textContent.trim()));
     });

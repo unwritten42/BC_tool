@@ -191,10 +191,16 @@ async function inspect(extensionRoot, baseline = false) {
       assert.equal(await page.locator('#layoutMode').inputValue(), 'wide');
       assert.equal(await page.locator('#forceFactbox').isChecked(), false);
       assert.equal(await page.locator('#factboxMode').inputValue(), 'closed');
+      const layoutModeRow = page.locator('.bc-ui-feature-layout .bc-ui-mode-row');
+      assert.equal((await layoutModeRow.locator('label').innerText()).trim(), 'Layout pagina');
+      assert.equal(await layoutModeRow.locator('.info-tooltip').count(), 1);
+      assert.equal(await layoutModeRow.locator(':scope > :last-child').getAttribute('class'), 'info-tooltip');
+      const factboxModeRow = page.locator('.bc-ui-feature-factbox .bc-ui-mode-row');
+      assert.equal(await factboxModeRow.locator('.info-tooltip').count(), 1);
+      assert.equal(await factboxModeRow.locator(':scope > :last-child').getAttribute('class'), 'info-tooltip');
       assert.equal(await page.locator('#autoShowMore').isChecked(), false);
       assert.equal(await page.locator('#pageFieldCopyGlobalPreferences').isChecked(), true, 'global page preferences default to enabled');
       assert.equal(await page.locator('#pageFieldCopyGlobalPreferences').evaluate(input => input.labels.length), 1, 'scope checkbox remains natively label-accessible');
-      await page.locator('.bc-copy-global-options > summary').click();
       await page.locator('#pageFieldCopyGlobalPreferences').uncheck();
       await page.waitForFunction(async () => {
         const settings = await chrome.storage.sync.get('pageFieldCopyGlobalPreferences');
@@ -205,7 +211,6 @@ async function inspect(extensionRoot, baseline = false) {
       await page.reload();
       await page.locator('section[data-box="ui"]').waitFor();
       assert.equal(await page.locator('#pageFieldCopyGlobalPreferences').isChecked(), false, 'scope setting survives options reload');
-      await page.locator('.bc-copy-global-options > summary').click();
       await page.locator('#pageFieldCopyGlobalPreferences').check();
       await page.waitForFunction(async () => (await chrome.storage.sync.get('pageFieldCopyGlobalPreferences')).pageFieldCopyGlobalPreferences === true);
       await page.locator('#savedBadge.show').waitFor();

@@ -30,10 +30,7 @@
       <div class="bc-ui-action-row">
        <div class="bc-ui-feature bc-ui-feature-copy">
         <label title="Attiva la funzione Copia; i tipi selezionati mostrano il pulsante di default. Usa il tasto destro sulla colonna per mostrare o nascondere singoli pulsanti."><input type="checkbox" id="showPageFieldCopyButton" /> Pulsante Copia</label>
-        <details class="bc-copy-global-options">
-         <summary>Preferenze globali</summary>
-         <label title="Condivide Mostra/Nascondi tra ambienti e società per la stessa pagina e colonna."><input type="checkbox" id="pageFieldCopyGlobalPreferences" /> Preferenze globali per pagina</label>
-        </details>
+        <label title="Condivide Mostra/Nascondi tra ambienti e società per la stessa pagina e colonna."><input type="checkbox" id="pageFieldCopyGlobalPreferences" /> Preferenze globali per pagina</label>
         <div class="bc-copy-settings-row">
          <details id="pageFieldCopyOptions">
           <summary>Tipi di campo</summary>
@@ -67,10 +64,9 @@
     <div class="bc-ui-col bc-ui-col-layout">
      <div class="bc-ui-heading">Layout pagina</div>
      <div class="bc-ui-feature bc-ui-feature-layout">
-      <label><input type="checkbox" id="autoWide" /> Forza layout pagina</label>
       <div class="bc-ui-mode-row">
-       <label for="layoutMode">Layout pagina</label>
-       <select id="layoutMode">
+       <label><input type="checkbox" id="autoWide" /> Layout pagina</label>
+       <select id="layoutMode" aria-label="Modalità layout pagina">
         <option value="wide">Sempre Wide</option>
         <option value="normal">Sempre normale</option>
        </select>
