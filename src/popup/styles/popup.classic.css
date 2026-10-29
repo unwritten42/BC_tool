@@ -44,6 +44,13 @@ body{
 .iconBtn:hover{background:var(--sunken);border-color:var(--sig)}
 .iconBtn img{width:17px;height:17px;display:block;opacity:1}
 .iconBtn:focus-visible{outline:3px solid var(--focus-ring);outline-offset:1px}
+.update-notice{
+  display:flex;align-items:center;gap:8px;margin:0 2px 12px;padding:9px 10px;
+  border:1px solid var(--sig);border-radius:10px;background:var(--paper);color:var(--ink);
+  font-size:12px;
+}
+.update-notice[hidden]{display:none}
+.update-notice a{color:var(--accent);font-weight:600}
 #tableExportAction,#saldoArticoloAction{margin:0 2px 10px}
 #tableExportAction .btn,#saldoArticoloAction .btn{width:100%}
 .saldo-menu-icon{display:inline-block;margin-right:6px;font-size:16px;line-height:1;vertical-align:-1px}

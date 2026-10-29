@@ -24,7 +24,8 @@
   ],
   "host_permissions": [
     "https://businesscentral.dynamics.com/*",
-    "https://api.labelary.com/*"
+    "https://api.labelary.com/*",
+    "https://raw.githubusercontent.com/*"
   ],
   "background": {
     "service_worker": "src/background/background.js"

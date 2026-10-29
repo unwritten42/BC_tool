@@ -45,6 +45,10 @@ Per caricare una copia locale dell'estensione:
 4. Seleziona **Carica non pacchettizzata** e scegli la cartella `dist` generata al punto 2.
 5. Apri Business Central e configura le funzioni dal popup di BC_tools.
 
+### Avviso nuove versioni
+
+All'apertura del popup, BC_tools controlla la versione pubblicata nel [manifest del repository](https://raw.githubusercontent.com/unwritten42/BC_tool/main/manifest.json). Se è più recente, mostra un avviso con un link alle modifiche su GitHub. L'avviso non scarica né installa aggiornamenti: per aggiornare una copia locale, scarica il codice aggiornato, esegui di nuovo la build e ricarica l'estensione da `edge://extensions`. Per segnalare una nuova versione, aggiorna `version` in `manifest.json` e pubblica la modifica sul branch `main`.
+
 ## Sviluppo
 
 ```bash
@@ -58,7 +62,7 @@ La build valida i riferimenti locali e prepara la cartella `dist`, pronta da car
 
 ## Privacy e dati
 
-Le configurazioni e la diagnostica vengono salvate nell'archiviazione dell'estensione. La generazione delle anteprime invia il contenuto ZPL al servizio esterno Labelary: verifica le regole aziendali prima di inviare etichette che contengono dati riservati o personali.
+Le configurazioni e la diagnostica vengono salvate nell'archiviazione dell'estensione. All'apertura del popup viene contattato GitHub per verificare la versione pubblicata. La generazione delle anteprime invia il contenuto ZPL al servizio esterno Labelary: verifica le regole aziendali prima di inviare etichette che contengono dati riservati o personali.
 
 ## Documentazione
 

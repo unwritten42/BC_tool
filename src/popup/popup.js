@@ -65,6 +65,30 @@ function showToast(msg, ms=2600){
   __toastTimer = setTimeout(()=> el.classList.remove('show'), ms);
 }
 
+async function checkForUpdates(){
+  const notice = document.getElementById('updateNotice');
+  const message = document.getElementById('updateMessage');
+  const changes = document.getElementById('updateChanges');
+  if(!notice || !message || !changes) return;
+
+  try{
+    const update = await BcToolsUpdateCheck.check(chrome.runtime.getManifest().version);
+    if(!update) return;
+    message.textContent = `È disponibile la versione ${update.version}.`;
+    changes.href = update.changesUrl;
+    changes.hidden = false;
+    notice.hidden = false;
+  }catch(error){
+    bcDiagnostic('update-check-failed', {
+      reason:String(error && error.message || 'update-check-failed').slice(0,120)
+    });
+    message.textContent = 'Impossibile controllare gli aggiornamenti.';
+    changes.hidden = true;
+    notice.hidden = false;
+  }
+}
+checkForUpdates();
+
 function safeDecodeCompany(v){
   try{ return decodeURIComponent(v||''); }catch(_){ return v||''; }
 }

@@ -171,6 +171,10 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible{
   background:var(--sunken);
 }
 .bc-ui-col-visual,.bc-ui-col-actions,.bc-ui-col-layout{ min-height:180px }
+.bc-ui-col-visual{ display:flex; flex-direction:column; gap:12px }
+.bc-ui-col-visual > label,.bc-ui-col-visual > .setting-with-info{ width:100%; margin:0 }
+.bc-ui-col-actions{ column-gap:14px; row-gap:10px }
+.bc-ui-col-actions > .setting-with-info{ grid-column:1/-1; margin:0 0 2px }
 .bc-ui-heading{ grid-column:1/-1; margin-bottom:8px; color:var(--ink); font-size:12px; font-weight:700 }
 .bc-ui-col .help{ grid-column:1/-1 }
 .bc-ui-col-sort{ grid-column:1/-1; grid-template-columns:minmax(180px,.5fr) minmax(0,1.5fr) }
@@ -182,14 +186,32 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible{
 .bc-sort-pages{ min-width:0 }
 .bc-sort-pages .included-pages-list{ margin-top:6px }
 .bc-sort-help{ grid-column:1/-1; margin:0; padding-top:2px }
-.bc-ui-col label{ margin-top:9px }
+.bc-ui-col label{ min-width:0; margin-top:9px; overflow-wrap:anywhere }
+.bc-ui-col .setting-with-info{ display:flex; align-items:flex-start; gap:5px; width:100%; min-width:0 }
+.bc-ui-col .setting-with-info > label{ flex:1; min-width:0; margin-top:0; overflow-wrap:anywhere }
 .bc-ui-feature{ grid-column:1/-1; display:grid; gap:6px; min-width:0 }
-.bc-ui-action-row{ grid-column:1/-1; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; align-items:start }
+.bc-ui-action-row{ grid-column:1/-1; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; align-items:start }
 .bc-ui-action-row > .bc-ui-feature{ grid-column:auto }
-.bc-ui-action-secondary{ display:grid; align-content:start; justify-items:start; transform:translateY(-28px) }
-.bc-ui-col-layout > .bc-ui-feature-layout{ grid-column:1; margin-top:24px }
+.bc-ui-action-row > .bc-ui-feature-copy{ align-content:start; gap:10px }
+.bc-ui-action-secondary{ display:grid; align-content:start; justify-items:stretch; gap:10px; min-width:0 }
+.bc-ui-col-layout > .bc-ui-feature-layout{ grid-column:1; margin-top:0 }
 .bc-ui-col-layout > .bc-ui-feature-factbox{ grid-column:2 }
-.bc-ui-action-secondary > label{ justify-self:start }
+.bc-ui-col-layout{ column-gap:18px; row-gap:12px }
+.bc-ui-col-layout > .bc-ui-feature-layout,.bc-ui-col-layout > .bc-ui-feature-factbox{ align-self:start; min-width:0 }
+.bc-ui-mode-row{
+  display:grid; grid-template-columns:minmax(0,1fr) 18px; gap:6px 8px; align-items:center;
+}
+.bc-ui-mode-row > label{ grid-column:1/-1; margin:0 }
+.bc-ui-mode-row > select{ grid-column:1; width:100%; min-width:0 }
+.bc-ui-mode-row > .info-tooltip{ grid-column:2; justify-self:end; margin:0 }
+.bc-ui-col .info-tooltip::after{ left:auto; right:0; transform:translateY(4px) }
+.bc-ui-col .info-tooltip:hover::after,.bc-ui-col .info-tooltip:focus-visible::after,.bc-ui-col .info-tooltip.is-open::after{ transform:translateY(0) }
+.bc-ui-popup-mode-row{ display:grid; grid-template-columns:minmax(0,.6fr) minmax(0,1.4fr); gap:12px; align-items:center }
+.bc-ui-popup-mode-row > label{ margin:0 }
+.bc-ui-feature-popup-layout{ margin-top:4px; padding-top:12px; border-top:1px solid var(--line) }
+.bc-ui-feature-popup-layout > .help{ grid-column:1/-1; margin-top:0 }
+.bc-ui-col-layout > .setting-with-info,.bc-ui-col-layout > label{ grid-column:1/-1 }
+.bc-ui-action-secondary > label{ min-width:0; margin:0; overflow-wrap:anywhere }
 .bc-ui-feature-heading{ margin:4px 0 0 }
 .bc-copy-reset-row{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; min-width:0 }
 #restoreHiddenCopyButtons{
@@ -209,7 +231,7 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible{
 }
 .bc-subbox label{ margin-top:5px }
 .bc-subbox label:first-child{ margin-top:0 }
-@media (max-width: 1200px){ .bc-ui-grid3{ grid-template-columns:repeat(2,minmax(0,1fr)) } .bc-sort-grid{ grid-template-columns:1fr 1fr } .bc-sort-pages{ grid-column:1/-1 } }
+@media (max-width: 1200px){ .bc-ui-grid3{ grid-template-columns:repeat(2,minmax(0,1fr)) } .bc-ui-col-layout{ grid-column:1/-1 } .bc-sort-grid{ grid-template-columns:1fr 1fr } .bc-sort-pages{ grid-column:1/-1 } }
 @media (max-width: 820px){ .bc-ui-grid3{ grid-template-columns:1fr } .bc-ui-col,.bc-ui-col-sort,.bc-ui-action-row{ grid-template-columns:1fr } .bc-ui-action-secondary{ transform:none } .bc-ui-col-layout > .bc-ui-feature-layout,.bc-ui-col-layout > .bc-ui-feature-factbox{ grid-column:1 } .bc-ui-col-layout > .bc-ui-feature-layout{ margin-top:0 } .bc-sort-grid{ grid-template-columns:1fr } .bc-sort-pages,.bc-sort-help{ grid-column:auto } }
 
 /* ── Righe filtri (MVP) ──────────────────────────────────────────── */

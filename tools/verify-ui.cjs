@@ -155,6 +155,7 @@ async function inspect(extensionRoot, baseline = false) {
       await page.locator('#quickGuideButton').click();
       await page.locator('#quickGuideCustomize').click();
       await page.locator('#settingsVisualStyle').waitFor({ state: 'visible' });
+      assert.equal(await page.locator('.settings-card-number').first().isVisible(), true);
       for (const style of ['classic', 'modern']) {
         await page.locator('#settingsVisualStyle').selectOption(style);
         await page.waitForFunction(async style => (await chrome.storage.sync.get('visualStyle')).visualStyle === style, style);
@@ -163,6 +164,8 @@ async function inspect(extensionRoot, baseline = false) {
           classic: !document.getElementById('classicStyle').disabled
         }));
         assert.deepEqual(enabledStyles, { modern: style === 'modern', classic: style === 'classic' });
+        assert.equal(await page.locator('.settings-card-description').first().isVisible(), style === 'classic');
+        assert.equal(await page.locator('.settings-card-tags').first().isVisible(), style === 'classic');
         if (style === 'classic') await capture(page, 'settings-classic');
       }
       await page.keyboard.press('Escape');
@@ -175,6 +178,67 @@ async function inspect(extensionRoot, baseline = false) {
       await page.reload();
       await page.waitForFunction(() => document.getElementById('classicStyle') && !document.getElementById('classicStyle').disabled);
       assert.equal(await page.locator('#settingsVisualStyle').isVisible(), false);
+      await page.locator('#quickGuideButton').click();
+      await page.locator('#quickGuideCustomize').click();
+      await page.locator('#settingsVisualStyle').waitFor({ state: 'visible' });
+      await page.keyboard.press('Escape');
+      await page.locator('#settingsVisualStyle').waitFor({ state: 'hidden' });
+      await page.locator('[data-target="ui"]').click();
+      await page.locator('.bc-ui-col-visual').waitFor();
+      const classicVisualRows = await page.locator('.bc-ui-col-visual > label, .bc-ui-col-visual > .setting-with-info').evaluateAll(rows =>
+        rows.map(row => {
+          const rect = row.getBoundingClientRect();
+          return { left:rect.left, right:rect.right, top:rect.top, bottom:rect.bottom };
+        })
+      );
+      assert.ok(classicVisualRows.every(row => Math.abs(row.left - classicVisualRows[0].left) < 1 && Math.abs(row.right - classicVisualRows[0].right) < 1), `classic visual settings align in one column: ${JSON.stringify(classicVisualRows)}`);
+      assert.ok(classicVisualRows.slice(1).every((row, index) => row.top >= classicVisualRows[index].bottom), 'classic visual settings do not overlap');
+      const classicActionRows = await page.locator('.bc-ui-feature-copy, .bc-ui-action-secondary').evaluateAll(rows =>
+        rows.map(row => row.getBoundingClientRect().top)
+      );
+      assert.ok(Math.abs(classicActionRows[0] - classicActionRows[1]) < 1, 'classic action groups start on the same row');
+      const classicActionGeometry = await page.locator('.bc-ui-col-actions').evaluate(column => {
+        const bounds = selector => {
+          const rect = column.querySelector(selector).getBoundingClientRect();
+          return { left:rect.left, right:rect.right, top:rect.top, bottom:rect.bottom };
+        };
+        return {
+          column:column.getBoundingClientRect().toJSON(),
+          saldo:bounds(':scope > .setting-with-info'),
+          groups:bounds('.bc-ui-action-row'),
+          popup:bounds('.bc-ui-feature-popup-layout')
+        };
+      });
+      assert.ok(Math.abs(classicActionGeometry.saldo.left - classicActionGeometry.groups.left) < 1 && Math.abs(classicActionGeometry.saldo.right - classicActionGeometry.groups.right) < 1, `saldo spans the action card above both groups: ${JSON.stringify(classicActionGeometry)}`);
+      assert.ok(classicActionGeometry.popup.left <= classicActionGeometry.groups.left + 1 && classicActionGeometry.popup.right >= classicActionGeometry.groups.right - 1, 'popup layout spans the action card');
+      const classicLayoutColumns = await page.locator('.bc-ui-feature-layout, .bc-ui-feature-factbox').evaluateAll(columns =>
+        columns.map(column => ({
+          left:column.getBoundingClientRect().left,
+          top:column.getBoundingClientRect().top,
+          selectWidth:column.querySelector('select').getBoundingClientRect().width
+        }))
+      );
+      assert.ok(classicLayoutColumns[1].left > classicLayoutColumns[0].left, 'FactBox settings appear beside page layout settings');
+      assert.ok(Math.abs(classicLayoutColumns[0].top - classicLayoutColumns[1].top) < 1, 'page layout and FactBox controls align at the top');
+      assert.ok(Math.abs(classicLayoutColumns[0].selectWidth - classicLayoutColumns[1].selectWidth) < 2, `page layout and FactBox menus have matching widths: ${JSON.stringify(classicLayoutColumns)}`);
+      for (const row of await page.locator('.bc-ui-feature-layout .bc-ui-mode-row, .bc-ui-feature-factbox .bc-ui-mode-row').all()) {
+        const bounds = await row.evaluate(element => {
+          const label = element.querySelector('label').getBoundingClientRect();
+          const select = element.querySelector('select').getBoundingClientRect();
+          const tooltip = element.querySelector('.info-tooltip').getBoundingClientRect();
+          return { labelTop:label.top, selectTop:select.top, selectLeft:select.left, selectRight:select.right, tooltipLeft:tooltip.left, tooltipRight:tooltip.right, rowRight:element.getBoundingClientRect().right };
+        });
+        assert.ok(bounds.selectTop > bounds.labelTop, `classic mode selects sit below their labels: ${JSON.stringify(bounds)}`);
+        assert.ok(bounds.tooltipLeft >= bounds.selectRight && bounds.tooltipRight <= bounds.rowRight, `classic mode tooltips align beside their select: ${JSON.stringify(bounds)}`);
+      }
+      const popupGeometry = await page.locator('.bc-ui-popup-mode-row').evaluate(row => {
+        const label = row.querySelector('label').getBoundingClientRect();
+        const select = row.querySelector('select').getBoundingClientRect();
+        return { row:row.getBoundingClientRect().toJSON(), label:label.toJSON(), select:select.toJSON() };
+      });
+      assert.ok(popupGeometry.select.left > popupGeometry.label.left && popupGeometry.select.right <= popupGeometry.row.right, `popup label and select share one aligned row: ${JSON.stringify(popupGeometry)}`);
+      await capture(page, 'settings-classic-ui');
+      await page.locator('.back-button').click();
       await page.locator('#quickGuideButton').click();
       await page.locator('#quickGuideCustomize').click();
       await page.locator('#settingsVisualStyle').waitFor({ state: 'visible' });
@@ -203,8 +267,19 @@ async function inspect(extensionRoot, baseline = false) {
       const dropdownLayout = await page.locator('#layoutMode, #factboxMode, #popupLayout').evaluateAll(selects =>
         selects.map(select => ({ width:select.getBoundingClientRect().width, offset:select.getBoundingClientRect().left - select.parentElement.getBoundingClientRect().left, rowWidth:select.parentElement.getBoundingClientRect().width }))
       );
-      assert.ok(dropdownLayout.every(item => Math.abs(item.width - 155) < 1), 'all settings dropdowns have the same fixed width');
-      assert.ok(dropdownLayout.every(item => Math.abs(item.offset - item.rowWidth / 2) <= 4), 'all settings dropdowns start at the middle of their section');
+      assert.ok(dropdownLayout.every(item => Math.abs(item.width - 180) < 1 && item.offset > 0 && item.offset < item.rowWidth), `modern settings dropdowns retain their fixed width and side-by-side labels: ${JSON.stringify(dropdownLayout)}`);
+      for (const row of [layoutModeRow, factboxModeRow]) {
+        const bounds = await row.evaluate(element => ({
+          dropdownRight:element.querySelector('select').getBoundingClientRect().right,
+          tooltipLeft:element.querySelector('.info-tooltip').getBoundingClientRect().left,
+          tooltipRight:element.querySelector('.info-tooltip').getBoundingClientRect().right,
+          rowRight:element.getBoundingClientRect().right
+        }));
+        assert.ok(bounds.tooltipLeft >= bounds.dropdownRight, `tooltips remain beside the dropdown: ${JSON.stringify(bounds)}`);
+        assert.ok(bounds.tooltipRight <= bounds.rowRight, `tooltips remain within their row: ${JSON.stringify(bounds)}`);
+      }
+      assert.equal(await page.locator('.bc-sort-help').isVisible(), false);
+      assert.equal(await page.locator('.bc-ui-feature-popup-layout > .help').isVisible(), false);
       assert.equal((await popupModeRow.locator('label').innerText()).trim(), 'Layout pop-up');
       assert.equal(await page.locator('#autoShowMore').isChecked(), false);
       assert.equal(await page.locator('#pageFieldCopyGlobalPreferences').isChecked(), true, 'global page preferences default to enabled');

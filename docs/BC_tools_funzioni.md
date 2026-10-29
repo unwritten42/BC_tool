@@ -86,10 +86,14 @@ I content script operano direttamente nel DOM di Business Central per:
 
 - applicare le migliorie visive;
 - inserire il pulsante di copia del codice articolo;
+- aggiungere pulsanti di copia ai campi cliccabili o FlowField riconosciuti;
+- evidenziare le righe in base allo stato;
 - aprire la ricerca nella pagina principale, se abilitato;
-- mantenere tutte le pagine Wide e/o chiudere la FactBox, se i rispettivi flag sono attivi;
+- aprire automaticamente il comando riconosciuto **Mostra il resto**;
+- mantenere il layout pagina e lo stato della FactBox scelti, se i rispettivi flag sono attivi;
 - ordinare la prima colonna nelle sole pagine autorizzate;
-- acquisire dati dalle griglie ZPL e dalle pagine di stampa supportate.
+- aprire documenti creati riconosciuti nei dialog Business Central;
+- acquisire dati dalle griglie per l'esportazione tabellare e dalle pagine ZPL/stampa supportate.
 
 ### 3.4 Service worker
 
@@ -544,7 +548,7 @@ La funzione:
 
 Per evitare scritture duplicate, la correzione del localStorage viene assegnata a un solo frame per origine quando possibile. In ogni frame vengono inoltre controllati i pulsanti nativi di pagina e FactBox: un click viene eseguito soltanto se etichetta/scorciatoia e stato ARIA o azione dichiarata identificano uno stato diverso dal target. I tentativi sul medesimo controllo sono limitati e distanziati; nessun CSS allarga artificialmente la pagina.
 
-L'opzione **Apri Mostra di più automaticamente** cerca in ogni frame il comando esplicito **Mostra il resto**, **Mostra di più**, **Show more** o **Show the rest** e lo attiva quando compare. Non clicca controlli nascosti, già espansi o appartenenti a una pagina inattiva. L'apertura avviene una volta per elemento e pagina; il controllo viene riaperto se BC lo ripresenta come chiuso o lo ricrea durante la navigazione.
+L'opzione **Apri automaticamente “Mostra il resto”** cerca in ogni frame pulsanti, controlli con ruolo button e link con etichette corrispondenti a **Mostra il resto**, **Mostra di più**, **Show more** o **Show the rest**. Il controllo deve essere visibile, abilitato e non già espanso. Viene attivato al massimo un controllo riconosciuto per frame e pagina; l'apertura viene tentata di nuovo quando cambia il contesto pagina.
 
 ### Limiti
 
@@ -1118,6 +1122,7 @@ L'editor e i modelli sono gestiti dall'estensione, ma la generazione dell'antepr
 - Opzioni: `src/options/index.html`.
 - Service worker: `src/background/background.js`.
 - Content script dichiarati:
+  - `src/content/bc_layout_state.js`;
   - `src/content/bc_enhance.js`;
   - `src/content/bc_autosort.js`.
 - CSS content script:
@@ -1127,19 +1132,25 @@ L'editor e i modelli sono gestiti dall'estensione, ma la generazione dell'antepr
 
 ### Chiavi principali
 
-Impostazioni riconosciute dal service worker:
+Impostazioni accettate dal service worker per il salvataggio:
 
 ```text
+saldoArticoloMovimentiWarehouse
+visualStyle
 hideNotificationsButton
 showValuesInMonospace
 showHyphensInColumnCaptions
 highlightStatusRows
 autoOpenHomeSearch
-showItemCopyButton
 showPageFieldCopyButton
+pageFieldCopyEnabled
+pageFieldCopyClickable
+pageFieldCopyFlowField
+pageFieldCopyMode
+pageFieldCopyGlobalPreferences
 showCreatedDocumentButton
 enableTableExport
-saldoArticoloMovimentiWarehouse
+autoShowMore
 autoSortFirstColumn
 sortDirection
 autoWide
@@ -1152,6 +1163,7 @@ includedPages
 optionsLayout
 quickFilters
 quickTables
+includedPageNames
 ```
 
 Chiavi locali tecniche principali:

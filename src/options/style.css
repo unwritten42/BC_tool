@@ -1508,12 +1508,16 @@ body > .settings-brand{
 .bc-ui-feature{gap:8px;width:100%}
 .bc-ui-feature-popup-layout{padding-top:12px;border-top:1px solid var(--line)}
 .bc-ui-col-layout > .bc-ui-feature-layout{margin-top:0}
-.bc-ui-mode-row,.bc-ui-popup-mode-row{
-  display:grid;grid-template-columns:calc(50% - 3px) 155px;gap:6px;
+.bc-ui-mode-row{
+  display:grid;grid-template-columns:calc(50% - 15px) 180px;gap:6px;
+  align-items:center;min-width:0;position:relative;
+}
+.bc-ui-popup-mode-row{
+  display:grid;grid-template-columns:calc(50% - 3px) 180px;gap:6px;
   align-items:center;min-width:0;position:relative;
 }
 .bc-ui-mode-row > select,.bc-ui-popup-mode-row > select{
-  width:155px;min-width:155px;max-width:155px;box-sizing:border-box;
+  width:180px;min-width:180px;max-width:180px;box-sizing:border-box;
 }
 .bc-ui-mode-row > .info-tooltip{position:absolute;right:0;margin:0}
 .bc-ui-feature-heading{margin-top:8px}

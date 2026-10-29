@@ -26,6 +26,10 @@
   </div>
  </header>
  <main>
+  <div id="updateNotice" class="update-notice" role="status" aria-live="polite" hidden>
+   <span id="updateMessage"></span>
+   <a id="updateChanges" href="#" target="_blank" rel="noopener noreferrer" hidden>Vedi le modifiche</a>
+  </div>
   <div class="content-heading"><h2>Azioni rapide</h2></div>
   <div id="tableExportAction" hidden><button id="openTableExport" class="btn secondary" type="button">Esporta tabella</button></div>
   <div id="saldoArticoloAction" hidden><button id="openSaldoArticolo" class="btn secondary" type="button" aria-label="Saldo articolo"><span class="saldo-menu-icon" aria-hidden="true">≡</span>Saldo articolo</button></div>
@@ -55,6 +59,7 @@
       </div>
     </div>
   </div>
+  <script src="../shared/bc_update_check.js"></script>
   <script src="../shared/xlsx_local.js"></script>
   <script src="../shared/bc_url_context.js"></script>
   <script src="popup.js"></script>
