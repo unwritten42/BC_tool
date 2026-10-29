@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it">
+ <head>
+ <meta charset="utf-8" />
+ <meta name="color-scheme" content="light dark" />
+ <title>BC_tools</title>
+ <link rel="icon" href="../../assets/icons/icon.png" />
+ <link id="modernStyle" rel="stylesheet" href="popup.css" />
+ <link id="classicStyle" rel="stylesheet" href="styles/popup.classic.css" disabled />
+ <script src="../../src/shared/bc_diagnostic.js"></script>
+ </head>
+ <body>
+ <div id="container">
+ <header class="header">
+  <div class="brand">
+   <img class="brand-icon" src="../../assets/icons/icon.png" alt="" />
+  <div class="brand-copy"><h1>BC_tools</h1></div>
+  </div>
+  <div class="header-actions" role="toolbar" aria-label="Azioni rapide">
+  <button id="openBookmark" type="button" aria-label="Apri pagina 8700" class="iconBtn" title="Apri pagina 8700"><img src="../../assets/vendor/lucide/bookmark.svg" alt="" /></button>
+  <button id="pickFromBC" type="button" aria-label="Importa Page ID dalla scheda Business Central" class="iconBtn" title="Importa Page ID"><img src="../../assets/vendor/lucide/crosshair.svg" alt="" /></button>
+  <button id="addCurrentPageToSort" type="button" aria-label="Aggiungi la pagina corrente all'ordinamento automatico" class="iconBtn" title="Aggiungi pagina al sort"><img src="../../assets/vendor/lucide/list-plus.svg" alt="" /></button>
+   <button id="openZplFromPage" type="button" aria-label="Leggi e visualizza ZPL dalla pagina corrente" class="iconBtn zplPageBtn" title="Visualizza ZPL" hidden>ZPL</button>
+   <span class="toolbar-divider" aria-hidden="true"></span>
+  <button id="openOptions" type="button" aria-label="Apri impostazioni" class="iconBtn" title="Impostazioni"><img src="../../assets/vendor/lucide/settings.svg" alt="" /></button>
+  </div>
+ </header>
+ <main>
+  <div class="content-heading"><h2>Azioni rapide</h2></div>
+  <div id="tableExportAction" hidden><button id="openTableExport" class="btn secondary" type="button">Esporta tabella</button></div>
+  <div id="saldoArticoloAction" hidden><button id="openSaldoArticolo" class="btn secondary" type="button" aria-label="Saldo articolo"><span class="saldo-menu-icon" aria-hidden="true">≡</span>Saldo articolo</button></div>
+   <div id="tiles" class="tiles-grid tiles-1"><!-- tiles injected by JS --></div>
+ </main>
+ 
+  <div id="toast" class="toast"></div>
+  <div id="tablesModal" class="modal-overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tablesModalTitle">
+      <div class="modal-title" id="tablesModalTitle">Tabelle salvate</div>
+      <div class="modal-body">
+        <div id="tablesList" class="tables-list"></div>
+      </div>
+      <div class="modal-actions">
+        <button id="tablesClose" class="modalBtn secondary" type="button">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+  <div id="tableExportModal" class="modal-overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tableExportTitle">
+      <div class="modal-title" id="tableExportTitle" tabindex="-1"></div>
+      <div class="modal-body"><p id="tableExportStatus" role="status"></p><p id="tableExportWarning">Esporta soltanto le righe attualmente caricate nella pagina. Il file può essere incompleto.</p></div>
+      <div class="modal-actions">
+        <button id="tableExportLoaded" class="modalBtn primary" type="button">Righe caricate</button>
+        <button id="tableExportCancel" class="modalBtn secondary" type="button">Annulla</button>
+      </div>
+    </div>
+  </div>
+  <script src="../shared/xlsx_local.js"></script>
+  <script src="../shared/bc_url_context.js"></script>
+  <script src="popup.js"></script>
+ </body>
+</html>

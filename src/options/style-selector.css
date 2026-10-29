@@ -1,0 +1,31 @@
+.settings-customize-appearance {
+  display: flex;
+  min-width: 150px;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.settings-customize-appearance select {
+  min-height: 36px;
+  padding: 6px 30px 6px 9px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+}
+
+.settings-customize-appearance select:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+@media (max-width: 620px) {
+  .settings-customize-appearance {
+    width: 100%;
+  }
+}

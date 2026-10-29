@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="it">
+ <head>
+  <meta charset="utf-8" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Impostazioni BC_tools</title>
+  <link rel="icon" href="../../assets/icons/icon.png" />
+  <link id="modernStyle" rel="stylesheet" href="style.css" />
+  <link id="classicStyle" rel="stylesheet" href="styles/options.classic.css" disabled />
+  <link rel="stylesheet" href="style-selector.css" />
+  <script src="../../src/shared/bc_diagnostic.js"></script>
+ </head>
+ <body>
+  <h2 class="settings-brand"><img src="../../assets/icons/icon.png" alt="" /><span>Impostazioni BC_tools</span></h2>
+
+  <section data-box="ui">
+   <h3>Migliorie UI Business Central</h3>
+   <div class="bc-ui-grid3">
+    <div class="bc-ui-col bc-ui-col-visual">
+     <div class="bc-ui-heading">Visualizzazione</div>
+     <label><input type="checkbox" id="hideNotificationsButton" /> Nascondi pulsante notifiche</label>
+     <label><input type="checkbox" id="showValuesInMonospace" /> Valori in monospace (ui-monospace)</label>
+     <label><input type="checkbox" id="showHyphensInColumnCaptions" /> Sillabazione caption colonne</label>
+     <label title="Evidenzia in rosso tenue le righe aperte e in verde tenue quelle rilasciate; la riga selezionata resta bianca."><input type="checkbox" id="highlightStatusRows" /> Evidenzia righe per stato</label>
+    </div>
+
+    <div class="bc-ui-col bc-ui-col-actions">
+     <div class="bc-ui-heading">Azioni e pop-up</div>
+    <label title="Mostra nel popup il comando 'Saldo articolo' per analizzare le righe della vista filtrata in 'Movimenti warehouse'."><input type="checkbox" id="saldoArticoloMovimentiWarehouse" /> Saldo articolo Movimenti warehouse</label>
+      <div class="bc-ui-action-row">
+       <div class="bc-ui-feature bc-ui-feature-copy">
+        <label title="Attiva la funzione Copia; i tipi selezionati mostrano il pulsante di default. Usa il tasto destro sulla colonna per mostrare o nascondere singoli pulsanti."><input type="checkbox" id="showPageFieldCopyButton" /> Pulsante Copia</label>
+        <details class="bc-copy-global-options">
+         <summary>Preferenze globali</summary>
+         <label title="Condivide Mostra/Nascondi tra ambienti e società per la stessa pagina e colonna."><input type="checkbox" id="pageFieldCopyGlobalPreferences" /> Preferenze globali per pagina</label>
+        </details>
+        <div class="bc-copy-settings-row">
+         <details id="pageFieldCopyOptions">
+          <summary>Tipi di campo</summary>
+          <div id="pageFieldCopyFields" class="help bc-subbox">
+           <label><input type="checkbox" id="pageFieldCopyClickable" /> Campi cliccabili</label>
+           <label><input type="checkbox" id="pageFieldCopyFlowField" /> FlowField</label>
+          </div>
+         </details>
+         <div class="bc-copy-reset-row">
+          <button id="restoreHiddenCopyButtons" type="button" aria-label="Azzera le preferenze contestuali e globali dei pulsanti Copia" title="Azzera le preferenze contestuali e globali dei pulsanti Copia">Azzera</button>
+          <span id="restoreHiddenCopyButtonsStatus" class="help" role="status" aria-live="polite"></span>
+         </div>
+        </div>
+       </div>
+       <div class="bc-ui-action-secondary">
+        <label title="Apre una sola volta la ricerca interna quando entri nella pagina principale"><input type="checkbox" id="autoOpenHomeSearch" /> Apri ricerca nella pagina principale</label>
+        <label title="Mostra Apri documento nei messaggi riconosciuti di creazione prelievo, stoccaggio e ordine di produzione rilasciato"><input type="checkbox" id="showCreatedDocumentButton" /> Apri documenti creati</label>
+        <label title="Mostra nel popup il comando per esportare la tabella Business Central aperta con table=ID."><input type="checkbox" id="enableTableExport" /> Esportazione tabelle</label>
+       </div>
+      </div>
+     <div class="bc-ui-feature bc-ui-feature-popup-layout">
+      <label for="popupLayout">Layout pop-up</label>
+      <select id="popupLayout" aria-describedby="popupLayoutHelp">
+       <option value="a">Layout pop-up A</option>
+       <option value="vertical">Layout pop-up verticale</option>
+      </select>
+      <div class="help" id="popupLayoutHelp">A: impostazione iniziale modernizzata e compatta. Verticale: card più descrittive.</div>
+     </div>
+    </div>
+
+    <div class="bc-ui-col bc-ui-col-layout">
+     <div class="bc-ui-heading">Layout pagina</div>
+     <div class="bc-ui-feature bc-ui-feature-layout">
+      <label><input type="checkbox" id="autoWide" /> Forza layout pagina</label>
+      <div class="bc-ui-mode-row">
+       <label for="layoutMode">Layout pagina</label>
+       <select id="layoutMode">
+        <option value="wide">Sempre Wide</option>
+        <option value="normal">Sempre normale</option>
+       </select>
+      </div>
+     </div>
+     <div class="bc-ui-feature bc-ui-feature-factbox">
+      <div class="bc-ui-mode-row">
+       <label><input type="checkbox" id="forceFactbox" /> FactBox</label>
+       <select id="factboxMode" aria-label="Modalità FactBox">
+        <option value="closed">Sempre chiusa</option>
+        <option value="open">Sempre aperta</option>
+       </select>
+      </div>
+     </div>
+         <label><input type="checkbox" id="autoShowMore" /> Apri automaticamente “Mostra il resto”</label>
+    </div>
+    <div class="bc-ui-col bc-ui-col-sort">
+     <label title="Ordina la prima colonna solo sulle pagine elencate qui sotto"><input type="checkbox" id="autoSortFirstColumn" /> Ordinamento automatico</label>
+     <div id="sortDirectionBox" class="help bc-subbox bc-sort-grid">
+      <div class="bc-sort-field">
+       <label for="sortDirection">Direzione</label>
+       <select id="sortDirection">
+        <option value="desc">Prima i piu' nuovi (decrescente)</option>
+        <option value="asc">Prima i piu' vecchi (crescente)</option>
+       </select>
+      </div>
+      <div class="bc-sort-field">
+       <label for="autoSortPageToAdd">Aggiungi pagina alla lista</label>
+       <input type="text" id="autoSortPageToAdd" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="ID pagina, poi Invio o Tab" />
+      </div>
+      <div class="bc-sort-field bc-sort-pages">
+       <div id="autoSortIncludedPagesLabel">Pagine incluse (ordina solo qui)</div>
+       <div id="autoSortIncludedPagesList" class="included-pages-list" role="list" aria-labelledby="autoSortIncludedPagesLabel" aria-live="polite"></div>
+      </div>
+      <div class="help bc-sort-help">Inserisci un ID e premi <strong>Invio</strong> o <strong>Tab</strong>. Passa sopra un ID incluso per visualizzare il nome della pagina, quando disponibile. Premi <strong>×</strong> per rimuoverlo. Sono riconosciute solo le pagine il cui URL contiene <code>page=&lt;ID&gt;</code>.</div>
+     </div>
+    </div>
+  </section>
+
+  <section data-box="filtri">
+   <h3>Ricerca/Filtri (MVP)</h3>
+  <div class="help">Vedi le righe salvate + <strong>1 riga vuota</strong> pronta da compilare. Ogni riga richiede: <strong>Label</strong>, <strong>Pagina (ID)</strong> numerica, <strong>Campo</strong>. Le ricerche configurate compaiono automaticamente nel popup; attiva <strong>no popup</strong> per lasciarle disponibili solo nel menu contestuale. Salvataggio automatico.</div>
+   <div id="filtersArea"></div>
+  </section>
+
+  <section data-box="tabelle">
+   <h3>Tabelle (apertura diretta)</h3>
+  <div class="help">Salva le tabelle che usi più spesso: <strong>Etichetta</strong> (nome mostrato) + <strong>Tabella (ID)</strong> numerica. Vedi le righe salvate + <strong>1 riga vuota</strong> pronta da compilare. Salvataggio automatico. Le apri dal popup con il tasto “Salvate”.</div>
+   <div id="tablesArea"></div>
+  </section>
+
+  <section data-box="zpl">
+   <h3>ZPL Viewer</h3>
+   <div class="zpl-viewer-grid">
+    <div class="zpl-editor-panel zpl-column zpl-column-left">
+     <div class="zpl-toolbar" aria-label="Comandi rapidi ZPL">
+      <label class="zpl-file-button" for="zplFile"><img class="tool-icon" src="../../assets/vendor/lucide/folder-open.svg" alt="" />Apri file ZPL</label>
+      <input id="zplFile" type="file" accept=".zpl,.txt,text/plain" hidden />
+      <button id="zplEnsureEnvelope" type="button" class="zpl-secondary">Completa ^XA/^XZ</button>
+      <button id="zplInsertCentered" type="button" class="zpl-secondary">Testo centrato</button>
+      <button id="zplExample" type="button" class="zpl-secondary">Esempio</button>
+      <button id="zplDuplicates" type="button" class="zpl-secondary">Analizza duplicati</button>
+      <button id="zplHighlightField" type="button" class="zpl-secondary">Evidenzia campo</button>
+      <button id="zplClear" type="button" class="zpl-secondary">Pulisci</button>
+     </div>
+     <div class="zpl-models zpl-box" aria-label="Modelli ZPL salvati">
+      <div class="zpl-tool-heading">Modello</div>
+      <label for="zplModelName">Nome modello</label>
+      <div class="zpl-model-row">
+       <input id="zplModelName" type="text" maxlength="80" autocomplete="off" placeholder="Nome del modello" />
+       <button id="zplModelSave" type="button" class="zpl-primary">Salva modello</button>
+      </div>
+      <label for="zplModelList">Modelli salvati (massimo 5)</label>
+      <div class="zpl-model-row">
+       <select id="zplModelList"><option value="">Nessun modello salvato</option></select>
+       <button id="zplModelLoad" type="button" class="zpl-secondary" disabled>Carica</button>
+       <button id="zplModelDelete" type="button" class="zpl-secondary" disabled>Elimina</button>
+      </div>
+     </div>
+     <div class="zpl-code-section zpl-box">
+      <div class="zpl-tool-heading">Codice ZPL</div>
+      <label class="sr-only" for="zplSource">Codice ZPL</label>
+      <textarea id="zplSource" spellcheck="false" autocomplete="off" placeholder="Incolla qui il codice da ^XA a ^XZ"></textarea>
+      <div class="help">Per un campo dinamico usa <code>{{Nome campo}}</code>: l’anteprima mostra il nome, mentre l’Excel esporta <code>%1</code> e scrive il nome nella colonna F. Un <code>%1</code> senza nome viene ricordato come <code>%1</code> nella colonna F. Per individuare un elemento, posiziona il cursore o seleziona una parte del codice e premi <strong>Evidenzia campo</strong>: viene usato automaticamente il blocco completo da <code>^FO</code>/<code>^FT</code> fino a <code>^FS</code>. Uscendo dall'editor, ^XA e ^XZ vengono aggiunti solo se mancanti.</div>
+     </div>
+     <div class="zpl-render-section zpl-box">
+      <div class="zpl-tool-heading">Formato e rendering</div>
+      <div class="zpl-controls" aria-label="Parametri etichetta">
+       <label>Densità
+        <select id="zplDpmm">
+         <option value="6">6 dpmm (152 dpi)</option>
+         <option value="8" selected>8 dpmm (203 dpi)</option>
+         <option value="12">12 dpmm (300 dpi)</option>
+         <option value="24">24 dpmm (600 dpi)</option>
+        </select>
+       </label>
+       <label>Larghezza (pollici)<input id="zplWidth" type="number" min="0.1" max="50" step="0.1" value="4" /></label>
+       <label>Altezza (pollici)<input id="zplHeight" type="number" min="0.1" max="50" step="0.1" value="6" /></label>
+       <label>Etichetta<input id="zplIndex" type="number" min="0" step="1" value="0" /></label>
+      </div>
+      <div class="zpl-actions">
+       <button id="zplRender" type="button" class="zpl-primary">Genera anteprima</button>
+      <button id="zplDownload" type="button" class="zpl-secondary" disabled><img class="tool-icon" src="../../assets/vendor/lucide/download.svg" alt="" /> Scarica PNG</button>
+       <button id="zplExportExcel" type="button" class="zpl-secondary">Esporta Excel completo</button>
+      </div>
+      <span id="zplStatus" role="status" aria-live="polite"></span>
+      <div class="help">Il rendering viene eseguito online tramite Labelary. Il codice viene conservato solo quando scegli Salva modello.</div>
+     </div>
+    </div>
+    <div class="zpl-preview-panel zpl-column zpl-column-center">
+     <div id="zplPreviewHeading" class="zpl-preview-heading">Anteprima</div>
+     <div id="zplPreviewEmpty" class="zpl-preview-empty">Inserisci il codice ZPL o genera un barcode.</div>
+     <img id="zplPreview" alt="Anteprima ZPL" hidden />
+    </div>
+    <div class="zpl-tools-panel zpl-column zpl-column-right">
+     <div class="zpl-printers zpl-box" aria-label="Stampa ZPL tramite Business Central">
+      <div class="zpl-tool-heading">Stampante</div>
+      <label class="sr-only" for="zplPrinterList">Stampante</label>
+      <div class="zpl-printer-row">
+       <select id="zplPrinterList"><option value="">Acquisisci l’elenco delle stampanti</option></select>
+       <button id="zplPrinterRefresh" type="button" class="zpl-secondary">Acquisisci stampanti</button>
+       <button id="zplPrintPrepare" type="button" class="zpl-primary" disabled>Prepara stampa</button>
+      </div>
+      <div class="help">Seleziona la stampante in Business Central e inserisce il testo ZPL nella pagina di stampa. La conferma con OK resta manuale.</div>
+     </div>
+     <div class="zpl-barcode-tools zpl-box" aria-label="Generatore codice a barre">
+      <div class="zpl-tool-heading">Codice a barre Code 128</div>
+      <label for="zplBarcodeData">Valore</label>
+      <input id="zplBarcodeData" type="text" maxlength="120" autocomplete="off" placeholder="1234567890" />
+      <label for="zplBarcodeHeight">Altezza (dot)</label>
+      <input id="zplBarcodeHeight" type="number" min="20" max="1200" step="1" value="100" />
+      <div class="zpl-barcode-actions">
+       <button id="zplBarcodePreviewButton" type="button" class="zpl-secondary">Anteprima barcode</button>
+       <button id="zplBarcodeInsertButton" type="button" class="zpl-primary">Inserisci nello ZPL</button>
+      </div>
+      <div id="zplBarcodeStatus" class="help" role="status" aria-live="polite"></div>
+     </div>
+     <div id="zplDuplicatePanel" class="zpl-duplicate-panel zpl-box" hidden>
+      <div class="zpl-duplicate-heading"><strong>Righe duplicate</strong><button id="zplDuplicateClose" type="button" class="zpl-secondary">Chiudi</button></div>
+      <div class="help">Passa il mouse su un gruppo per selezionarlo nel codice e mostrarlo in rosso nell’anteprima. Seleziona più gruppi per evidenziarli insieme. Il rosso è solo diagnostico e non modifica ZPL, Excel, stampa o PNG scaricato.</div>
+      <div id="zplDuplicateList" class="zpl-duplicate-list"></div>
+      <button id="zplDuplicateRemove" type="button" class="zpl-secondary" disabled>Rimuovi gruppi selezionati</button>
+     </div>
+    </div>
+   </div>
+  </section>
+  <section data-box="iofile">
+   <h3>Importa / Esporta</h3>
+   <div id="recommendedPresetEntry" class="recommended-preset-entry">
+    <h4>Configurazione consigliata</h4><div class="help">Parti da una configurazione pronta all’uso di BC_tools.</div><div class="io-row"><button id="recommendedPresetOpen" type="button">Visualizza configurazione consigliata</button></div>
+   </div>
+   <h4>Backup e trasferimento</h4>
+  <div class="help">Esporta tutto in un file JSON (filtri, tabelle, modelli ZPL salvati, migliorie UI, pagine incluse e ordine dei box). L'import <strong>sovrascrive</strong> le impostazioni presenti nel file.</div>
+   <div class="io-row">
+    <button id="exportBtn" type="button">Esporta JSON</button>
+    <button id="importBtn" type="button">Importa JSON</button>
+    <input type="file" id="importFile" accept=".json,application/json" hidden />
+   </div>
+   <h4>Diagnostica</h4>
+   <div class="help">Conserva localmente gli ultimi 1000 eventi tecnici di autosort, migliorie UI, layout, FactBox, popup, opzioni, filtri, tabelle e ZPL. I valori digitati non vengono registrati.</div>
+   <div class="io-row">
+    <button id="diagnosticsExportBtn" type="button">Esporta diagnostica</button>
+    <button id="diagnosticsClearBtn" type="button">Cancella diagnostica</button>
+    <span id="diagnosticsStatus" class="help" role="status" aria-live="polite"></span>
+   </div>
+  </section>
+
+  <section data-box="rdlc">
+    <h3>Editor strutturale RDL/RDLC</h3>
+    <div class="rdlc-lab" id="rdlcLab">
+     <div class="rdlc-column rdlc-column-left">
+      <div class="rdlc-lab-intro">
+       <p>Il file viene analizzato localmente. Modifica riferimenti a campi senza riscrivere le formule o gli elementi XML non interessati.</p>
+       <p>L’anteprima è una mappa strutturale, non esegue formule o dati e non certifica la validità per Business Central.</p>
+      </div>
+      <div class="rdlc-toolbar" role="toolbar" aria-label="Comandi RDLC">
+      <label class="rdlc-file-button" for="rdlcFile"><img class="tool-icon" src="../../assets/vendor/lucide/folder-open.svg" alt="" />Apri RDLC</label>
+       <input id="rdlcFile" type="file" accept=".rdlc,.rdl,application/xml,text/xml" hidden>
+      <button id="rdlcUndo" type="button" aria-label="Annulla ultima modifica" title="Annulla ultima modifica" disabled><img class="tool-icon" src="../../assets/vendor/lucide/undo-2.svg" alt="" /></button>
+      <button id="rdlcRedo" type="button" aria-label="Ripristina modifica annullata" title="Ripristina modifica annullata" disabled><img class="tool-icon" src="../../assets/vendor/lucide/redo-2.svg" alt="" /></button>
+       <button id="rdlcReset" type="button" disabled>Torna al file originale</button>
+      <button id="rdlcValidate" type="button" disabled><img class="tool-icon" src="../../assets/vendor/lucide/file-check.svg" alt="" />Valida</button>
+      <button id="rdlcSave" type="button" class="rdlc-primary" disabled><img class="tool-icon" src="../../assets/vendor/lucide/download.svg" alt="" />Salva nuova copia</button>
+      </div>
+      <div id="rdlcStatus" class="rdlc-status" role="status" aria-live="polite">Nessun file caricato. Apri un file RDL o RDLC per analizzarlo localmente.</div>
+     </div>
+     <div id="rdlcWorkspace" class="rdlc-workspace" hidden>
+      <dl class="rdlc-summary" aria-label="Riepilogo analisi">
+       <div><dt>File</dt><dd id="rdlcFileName">-</dd></div><div><dt>Namespace RDL</dt><dd id="rdlcNamespace">-</dd></div>
+       <div><dt>Dataset</dt><dd id="rdlcDatasetCount">0</dd></div><div><dt>Campi</dt><dd id="rdlcFieldCount">0</dd></div>
+       <div><dt>Riferimenti</dt><dd id="rdlcReferenceCount">0</dd></div><div><dt>Avvisi</dt><dd id="rdlcWarningCount">0</dd></div>
+      </dl>
+      <div id="rdlcWarnings" class="rdlc-warnings" aria-label="Avvisi e limitazioni"></div>
+      <div id="rdlcWorkspaceGrid" class="rdlc-workspace-grid is-empty">
+       <div class="rdlc-column rdlc-column-left">
+        <section class="rdlc-panel rdlc-outline-panel" aria-label="Struttura XML del report">
+         <h4 id="rdlcStructureTitle">Struttura del report</h4>
+         <label for="rdlcStructureSearch">Cerca nella struttura</label>
+         <input id="rdlcStructureSearch" type="search" autocomplete="off" aria-describedby="rdlcStructureSearchHelp rdlcStructureSearchStatus">
+         <p id="rdlcStructureSearchHelp" class="help">Cerca per nome elemento, tipo, campo, DataField o dataset.</p>
+         <p id="rdlcStructureSearchStatus" class="help" role="status" aria-live="polite"></p>
+         <div id="rdlcPreviewOutline" class="rdlc-preview-outline"></div></section>
+       </div>
+       <div class="rdlc-column rdlc-column-center" hidden>
+        <div class="rdlc-preview-shell">
+         <div class="rdlc-preview-head"><div><strong>Anteprima RDLC</strong><p class="rdlc-preview-note">Si adatta automaticamente all’area disponibile. Seleziona un elemento per evidenziare i riferimenti; mappa semplificata, non è il rendering ufficiale del report.</p></div><div class="rdlc-preview-actions" aria-label="Zoom anteprima"><button id="rdlcPreviewFit" type="button">Adatta</button><button id="rdlcPreviewActual" type="button">100%</button><button id="rdlcPreviewMinus" type="button" aria-label="Riduci anteprima" title="Riduci anteprima"><img class="tool-icon" src="../../assets/vendor/lucide/zoom-out.svg" alt="" /></button><output id="rdlcPreviewZoom">100%</output><button id="rdlcPreviewPlus" type="button" aria-label="Ingrandisci anteprima" title="Ingrandisci anteprima"><img class="tool-icon" src="../../assets/vendor/lucide/zoom-in.svg" alt="" /></button></div></div>
+         <div id="rdlcPreviewViewport" class="rdlc-preview-viewport" tabindex="0" aria-label="Anteprima visuale RDLC"><div id="rdlcPreviewCanvas"></div></div>
+        </div>
+       </div>
+       <div class="rdlc-column rdlc-column-right" hidden>
+        <section class="rdlc-panel" aria-labelledby="rdlcRefsTitle"><h4 id="rdlcRefsTitle">Proprietà e riferimenti</h4>
+        <div id="rdlcReferenceDetail" class="rdlc-reference-detail" role="status" aria-live="polite">Seleziona un elemento nella struttura o nell’anteprima per visualizzarne proprietà e riferimenti.</div>
+         <div id="rdlcReferenceChoices" class="rdlc-reference-choices" role="group" aria-label="Riferimenti dell’elemento selezionato" hidden></div>
+        </section>
+        <section class="rdlc-panel" aria-labelledby="rdlcMapTitle"><h4 id="rdlcMapTitle">Modifica puntuale del campo</h4>
+        <div id="rdlcSelectionEmpty" class="help">Seleziona un riferimento di campo modificabile.</div>
+         <div id="rdlcMapping" hidden>
+          <dl class="rdlc-map-details"><div><dt>Elemento</dt><dd id="rdlcMapElement"></dd></div><div><dt>Dataset</dt><dd id="rdlcMapDataset"></dd></div><div><dt>Campo corrente</dt><dd id="rdlcMapCurrent"></dd></div></dl>
+          <label for="rdlcNewField">Nuovo campo</label><select id="rdlcNewField"></select>
+          <label for="rdlcBefore">Espressione originale</label><output id="rdlcBefore" class="rdlc-expression"></output>
+          <label for="rdlcAfter">Espressione risultante</label><output id="rdlcAfter" class="rdlc-expression"></output>
+          <p id="rdlcExpressionHint" class="help">Verifica il significato funzionale del nuovo campo prima di applicare.</p>
+          <button id="rdlcApply" type="button" class="rdlc-primary">Applica all’elemento selezionato</button>
+         </div>
+        </section>
+       </div>
+      </div>
+     </div>
+    </div>
+  </section>
+  <dialog id="recommendedPresetDialog" class="recommended-preset-dialog" aria-labelledby="recommendedPresetTitle">
+   <header class="recommended-preset-header">
+    <h2 id="recommendedPresetTitle">Configurazione consigliata</h2>
+    <button id="recommendedPresetClose" class="recommended-preset-close" type="button" aria-label="Chiudi anteprima">×</button>
+   </header>
+   <div id="recommendedPresetContent" class="recommended-preset-content">
+    <p id="recommendedPresetIntro" class="recommended-preset-intro" tabindex="-1">BC_tools può applicare una configurazione di partenza consigliata. Controlla tutte le modifiche prima di applicarle.</p>
+    <p id="recommendedPresetError" class="recommended-preset-error" role="status" aria-live="polite" hidden></p>
+    <div id="recommendedPresetSummary" class="recommended-preset-summary" aria-label="Riepilogo configurazione"></div>
+    <nav class="recommended-preset-nav" aria-label="Vai alla sezione">
+     <button type="button" data-recommended-preset-target="recommendedPresetUi">UI</button>
+     <button type="button" data-recommended-preset-target="recommendedPresetSort">Ordinamento</button>
+     <button type="button" data-recommended-preset-target="recommendedPresetFilters">Filtri</button>
+     <button type="button" data-recommended-preset-target="recommendedPresetTables">Tabelle</button>
+    <button type="button" data-recommended-preset-target="recommendedPresetZpl">ZPL</button>
+    </nav>
+    <div id="recommendedPresetCards" class="recommended-preset-grid"></div>
+   </div>
+   <div id="recommendedPresetProgress" class="recommended-preset-progress" role="status" aria-live="polite" aria-atomic="true" hidden><div class="recommended-preset-progress-visual" aria-hidden="true"><svg class="recommended-preset-success-icon" viewBox="0 0 64 64" focusable="false" aria-hidden="true"><path d="M24 56H12V28h12v28Zm6 0V28l8-19c1-3 5-2 6 1l-2 13h10c5 0 8 4 7 9l-4 18c-1 4-4 6-8 6H30Z" fill="currentColor"/></svg></div><p id="recommendedPresetProgressText"></p></div>
+   <footer class="recommended-preset-actions"><button id="recommendedPresetLater" class="recommended-preset-secondary" type="button">Non ora</button><button id="recommendedPresetApply" class="recommended-preset-primary" type="button">Applica configurazione</button></footer>
+  </dialog>
+  <button id="quickGuideButton" class="quick-guide-button" type="button" aria-haspopup="menu" aria-controls="quickGuideMenu" aria-expanded="false" aria-label="Apri il menu di assistenza"><span class="quick-guide-button-symbol quick-guide-button-question" aria-hidden="true">?</span><span class="quick-guide-button-symbol quick-guide-button-close" aria-hidden="true">×</span><span class="quick-guide-button-symbol quick-guide-button-confirm" aria-hidden="true">✓</span></button>
+  <div id="quickGuideHint" class="quick-guide-hint" role="status" hidden>Nuovo qui? Apri il menu di assistenza.</div>
+  <div id="quickGuideMenu" class="quick-guide-menu" role="menu" aria-label="Assistenza" hidden>
+   <button id="quickGuideTour" class="quick-guide-menu-item" type="button" role="menuitem">
+    <span class="quick-guide-menu-icon" aria-hidden="true">▶</span>
+    <span><strong>Tour guidato</strong><small>Scopri le impostazioni principali</small></span>
+   </button>
+   <button id="quickGuideManual" class="quick-guide-menu-item" type="button" role="menuitem" aria-haspopup="dialog" aria-controls="quickGuideManualDialog">
+    <span class="quick-guide-menu-icon" aria-hidden="true">≡</span>
+    <span><strong>Manuale</strong><small>Apri la guida aggiornata</small></span>
+   </button>
+    <button id="quickGuideCustomize" class="quick-guide-menu-item" type="button" role="menuitem">
+     <span class="quick-guide-menu-icon" aria-hidden="true">↔</span>
+     <span><strong>Personalizza</strong><small>Scambia la posizione delle sezioni</small></span>
+    </button>
+   <button id="quickGuideFeedback" class="quick-guide-menu-item is-placeholder" type="button" role="menuitem" disabled aria-disabled="true">
+    <span class="quick-guide-menu-icon" aria-hidden="true">✦</span>
+    <span><strong>Feedback</strong><small>Coming soon</small></span>
+   </button>
+  </div>
+  <div id="guidedTourCoach" class="guided-tour-coach" role="dialog" aria-modal="false" aria-live="polite" aria-labelledby="guidedTourTitle" hidden>
+   <div class="guided-tour-progress" id="guidedTourProgress"></div>
+   <h2 id="guidedTourTitle"></h2>
+   <p id="guidedTourText"></p>
+   <figure id="guidedTourVisual" class="guided-tour-visual" hidden>
+    <button id="guidedTourImageOpen" class="guided-tour-image-open" type="button" aria-haspopup="dialog" aria-controls="guidedTourImageDialog" aria-label="Ingrandisci l'esempio del Page ID">
+     <img id="guidedTourImage" src="../../assets/tour/page-id-example.png" alt="Esempio della barra degli indirizzi di Business Central con il parametro page evidenziato" />
+    </button>
+    <figcaption id="guidedTourCaption">Il Page ID si trova nell'indirizzo dopo <code>page=</code>. Premi l'immagine per ingrandirla.</figcaption>
+   </figure>
+   <div class="guided-tour-actions">
+    <button id="guidedTourStop" class="guided-tour-secondary" type="button">Interrompi</button>
+    <button id="guidedTourNext" class="guided-tour-primary" type="button">Avanti</button>
+   </div>
+  </div>
+  <dialog id="quickGuideManualDialog" class="manual-dialog" aria-labelledby="quickGuideManualTitle">
+   <div class="manual-dialog-header">
+    <div>
+     <div class="quick-guide-kicker">Documentazione locale</div>
+     <h2 id="quickGuideManualTitle">Manuale BC_tools</h2>
+    </div>
+    <button id="quickGuideManualClose" class="manual-dialog-close" type="button" aria-label="Chiudi manuale">×</button>
+   </div>
+   <div id="quickGuideManualStatus" class="manual-status" role="status" aria-live="polite">Caricamento manuale…</div>
+   <article id="quickGuideManualContent" class="manual-content"></article>
+  </dialog>
+  <dialog id="guidedTourImageDialog" class="guided-tour-image-dialog" aria-labelledby="guidedTourImageDialogTitle">
+   <div class="guided-tour-image-dialog-header">
+    <h2 id="guidedTourImageDialogTitle">Dove trovare il Page ID</h2>
+    <button id="guidedTourImageClose" class="guided-tour-image-close" type="button" aria-label="Chiudi immagine ingrandita">×</button>
+   </div>
+   <div class="guided-tour-image-stage">
+    <img id="guidedTourImageLarge" src="../../assets/tour/page-id-example.png" alt="Barra degli indirizzi di Business Central con il valore del parametro page evidenziato" />
+   </div>
+   <p id="guidedTourImageDialogText">Il numero subito dopo <code>page=</code> è il Page ID da inserire.</p>
+  </dialog>
+  <dialog id="quickGuideDialog" class="quick-guide-dialog" aria-labelledby="quickGuideTitle" aria-describedby="quickGuideIntro">
+   <div class="quick-guide-header">
+    <div>
+     <div class="quick-guide-kicker">Guida rapida</div>
+     <h2 id="quickGuideTitle">Personalizza BC_tools in pochi passaggi</h2>
+     <p id="quickGuideIntro">Questa guida ti orienta tra le impostazioni principali. Non modifica nulla finché non scegli tu un'opzione.</p>
+    </div>
+    <button id="quickGuideClose" class="quick-guide-close" type="button" aria-label="Chiudi la guida">×</button>
+   </div>
+   <div class="quick-guide-grid">
+    <article>
+     <span class="quick-guide-step">1</span>
+    <h3>Apri le azioni rapide</h3>
+    <p>Le aperture usano la scheda Business Central attiva quando esegui l’azione.</p>
+    </article>
+    <article>
+     <span class="quick-guide-step">2</span>
+     <h3>Scegli l'aspetto</h3>
+     <p>Configura tema, layout del popup, larghezza della pagina e stato della FactBox.</p>
+    </article>
+    <article>
+     <span class="quick-guide-step">3</span>
+     <h3>Crea azioni rapide</h3>
+     <p>Aggiungi ricerche e tabelle preferite per ritrovarle direttamente nel popup.</p>
+    </article>
+    <article>
+     <span class="quick-guide-step">4</span>
+     <h3>Automatizza con controllo</h3>
+     <p>Attiva l'ordinamento solo per le pagine che inserisci nell'elenco dedicato.</p>
+    </article>
+   </div>
+   <div class="quick-guide-notes">
+    <strong>Da ricordare</strong>
+    <ul>
+     <li>Le impostazioni sono salvate automaticamente.</li>
+    <li>Il pulsante con il mirino nel popup acquisisce il Page ID dalla scheda Business Central attiva.</li>
+     <li>Esporta un JSON quando vuoi conservare o trasferire la configurazione.</li>
+    </ul>
+   </div>
+   <div class="quick-guide-actions">
+    <button id="quickGuideDone" class="quick-guide-primary" type="button">Ho capito, inizia</button>
+   </div>
+  </dialog>
+
+  <div id="savedBadge">Salvato ✓</div>
+  <script src="../shared/bc_diagnostic.js"></script>
+  <script src="../shared/bc_url_context.js"></script>
+  <script src="index.js"></script>
+  <script src="index_included_pages.js"></script>
+  <script src="zpl_viewer.js"></script>
+  <script src="rdlc_core.js"></script>
+  <script src="rdlc_preview.js"></script>
+  <script src="rdlc_mapper.js"></script>
+  <script src="index_layout.js"></script>
+ </body>
+</html>

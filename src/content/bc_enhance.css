@@ -1,0 +1,93 @@
+
+/* Hide notifications button */
+html.bc-tools-hide-notifications-button #notifications_container,
+html.bc-tools-hide-notifications-button button[id*="notif" i],
+html.bc-tools-hide-notifications-button button[aria-label*="notif" i],
+html.bc-tools-hide-notifications-button button[title*="notif" i],
+html.bc-tools-hide-notifications-button button[data-automation-id*="notif" i],
+html.bc-tools-hide-notifications-button [role="button"][id*="notif" i],
+html.bc-tools-hide-notifications-button [role="button"][aria-label*="notif" i],
+html.bc-tools-hide-notifications-button [role="button"][title*="notif" i],
+html.bc-tools-hide-notifications-button [role="button"][data-automation-id*="notif" i]{
+  display:none !important;
+}
+/* Show values in monospace - system stack */
+html body.bc-tools-show-values-in-monospace .stringcontrol-edit,
+html body.bc-tools-show-values-in-monospace .stringcontrol-read,
+html body.bc-tools-show-values-in-monospace .multilinestringcontrol-edit,
+html body.bc-tools-show-values-in-monospace .multilinestringcontrol-read,
+html body.bc-tools-show-values-in-monospace .ms-nav-grid tr:hover:not([aria-selected="true"]) .stringcontrol-edit,
+html body.bc-tools-show-values-in-monospace .ms-nav-grid tr:hover:not([aria-selected="true"]) .stringcontrol-read,
+html body.bc-tools-show-values-in-monospace .ms-nav-grid tr:not([aria-selected="true"]) .stringcontrol-edit,
+html body.bc-tools-show-values-in-monospace .ms-nav-grid tr:not([aria-selected="true"]) .stringcontrol-read,
+html body.bc-tools-show-values-in-monospace .ms-nav-grid tr[aria-selected="true"] .stringcontrol-edit,
+html body.bc-tools-show-values-in-monospace .ms-nav-grid tr[aria-selected="true"] .stringcontrol-read,
+html body.bc-tools-show-values-in-monospace .stackcontrol-list .value{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !important;
+}
+/* Hyphens in column captions */
+html body.bc-tools-show-hyphens-in-column-captions .columncaption{hyphens:auto !important;}
+
+/* Pastel status colors; keep the active row white so selection stays readable. */
+html body.bc-tools-highlight-status-rows .bc-tools-status-open,
+html body.bc-tools-highlight-status-rows .bc-tools-status-open > td,
+html body.bc-tools-highlight-status-rows .bc-tools-status-open > [role="gridcell"],
+html body.bc-tools-highlight-status-rows .bc-tools-status-open > [role="cell"]{
+  background-color:#FCE8E6 !important;
+}
+html body.bc-tools-highlight-status-rows .bc-tools-status-released,
+html body.bc-tools-highlight-status-rows .bc-tools-status-released > td,
+html body.bc-tools-highlight-status-rows .bc-tools-status-released > [role="gridcell"],
+html body.bc-tools-highlight-status-rows .bc-tools-status-released > [role="cell"]{
+  background-color:#E6F4EA !important;
+}
+html body.bc-tools-highlight-status-rows [data-bc-tools-status-selected],
+html body.bc-tools-highlight-status-rows [data-bc-tools-status-selected] > td,
+html body.bc-tools-highlight-status-rows [data-bc-tools-status-selected] > [role="gridcell"],
+html body.bc-tools-highlight-status-rows [data-bc-tools-status-selected] > [role="cell"],
+html body.bc-tools-highlight-status-rows .bc-tools-status-open[aria-selected="true"],
+html body.bc-tools-highlight-status-rows .bc-tools-status-open[aria-selected="true"] > td,
+html body.bc-tools-highlight-status-rows .bc-tools-status-open[aria-selected="true"] > [role="gridcell"],
+html body.bc-tools-highlight-status-rows .bc-tools-status-open[aria-selected="true"] > [role="cell"],
+html body.bc-tools-highlight-status-rows .bc-tools-status-released[aria-selected="true"],
+html body.bc-tools-highlight-status-rows .bc-tools-status-released[aria-selected="true"] > td,
+html body.bc-tools-highlight-status-rows .bc-tools-status-released[aria-selected="true"] > [role="gridcell"],
+html body.bc-tools-highlight-status-rows .bc-tools-status-released[aria-selected="true"] > [role="cell"]{
+  background-color:#FFFFFF !important;
+}
+
+/* Copy value button for selected Business Central grid columns */
+html body.bc-tools-show-page-field-copy-button .bc-tools-copy-page-field-host{position:relative;padding-right:46px !important;}
+html body.bc-tools-show-page-field-copy-button .bc-tools-copy-page-field{
+  position:absolute;right:2px;top:50%;transform:translateY(-50%);z-index:4;
+  width:18px;height:18px;padding:0;border:0;border-radius:3px;
+  color:#0067b8;background:transparent;font:600 14px/18px Segoe UI,sans-serif;
+  cursor:pointer;opacity:.68;
+}
+html body.bc-tools-show-page-field-copy-button .bc-tools-copy-page-field:hover,
+html body.bc-tools-show-page-field-copy-button .bc-tools-copy-page-field:focus-visible{background:#e6f2fb;opacity:1;outline:1px solid #0067b8;}
+html body.bc-tools-show-page-field-copy-button .bc-tools-copy-page-field-ok{color:#107c10;background:#dff6dd;opacity:1;}
+html body.bc-tools-show-page-field-copy-button .bc-tools-copy-page-field-error{color:#a4262c;background:#fde7e9;opacity:1;}
+
+.bc-tools-copy-actions{
+  position:fixed;z-index:2147483647;display:flex;flex-direction:column;gap:4px;
+  box-sizing:border-box;overflow:auto;padding:5px;border:1px solid #8a8886;border-radius:3px;
+  background:#fff;color:#323130;box-shadow:0 4px 14px rgba(0,0,0,.24);
+  font:12px/1.3 "Segoe UI",sans-serif;
+}
+.bc-tools-copy-actions button{
+  display:block;width:100%;min-height:34px;padding:6px;border:1px solid #c8c6c4;border-radius:2px;
+  background:#fff;color:inherit;font:inherit;text-align:left;white-space:normal;overflow-wrap:anywhere;cursor:pointer;
+}
+.bc-tools-copy-actions button:hover,.bc-tools-copy-actions button:focus-visible{
+  border-color:#0078d4;background:#eaf4fc;outline:2px solid #0078d4;outline-offset:1px;
+}
+
+/* Azione contestuale nei dialog di creazione prelievo/stoccaggio */
+.bc-tools-open-created-warehouse{
+  min-width:124px;min-height:28px;margin-right:10px;padding:4px 14px;
+  border:1px solid #007e87;border-radius:2px;background:#fff;color:#005a61;
+  font:600 12px/1.2 "Segoe UI",sans-serif;cursor:pointer;
+}
+.bc-tools-open-created-warehouse:hover{background:#eaf7f8;border-color:#005a61;}
+.bc-tools-open-created-warehouse:focus-visible{outline:2px solid #007e87;outline-offset:2px;}

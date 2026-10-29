@@ -1,0 +1,58 @@
+{
+  "manifest_version": 3,
+  "name": "BC_tools",
+  "description": "Utility per Microsoft Dynamics 365 Business Central: ricerche rapide, layout personalizzato, esportazioni e strumenti ZPL.",
+  "version": "3.2",
+  "icons": {
+    "16": "assets/icons/icon-16.png",
+    "32": "assets/icons/icon-32.png",
+    "48": "assets/icons/icon-48.png",
+    "128": "assets/icons/icon-128.png"
+  },
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "16": "assets/icons/icon-16.png",
+      "48": "assets/icons/icon-48.png",
+      "128": "assets/icons/icon-128.png"
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "https://businesscentral.dynamics.com/*",
+    "https://api.labelary.com/*"
+  ],
+  "background": {
+    "service_worker": "src/background/background.js"
+  },
+  "options_ui": {
+    "page": "src/options/index.html",
+    "open_in_tab": true
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://businesscentral.dynamics.com/*"
+      ],
+      "js": [
+        "src/content/bc_layout_state.js",
+        "src/content/bc_enhance.js",
+        "src/content/bc_autosort.js"
+      ],
+      "css": [
+        "src/content/bc_enhance.css"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "commands": {
+    "toggle-wide": {
+      "description": "Toggle Wide / Normal on BC page"
+    }
+  }
+}
