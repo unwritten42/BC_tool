@@ -185,6 +185,7 @@
         id,
         startedAt: sameOperation ? previous.startedAt : now,
         expiresAt: now + SORT_BRIDGE_ACTIVE_TTL_MS,
+        active: true,
         revision: sameOperation ? (Number(previous.revision) || 0) + 1 : 1
       }));
     } catch (_) {}
@@ -197,6 +198,7 @@
       const marker = JSON.parse(storage.getItem(SORT_BRIDGE_SESSION_KEY) || 'null');
       if (!marker || marker.id !== id) return;
       marker.expiresAt = Date.now() + SORT_BRIDGE_GRACE_MS;
+      marker.active = false;
       storage.setItem(SORT_BRIDGE_SESSION_KEY, JSON.stringify(marker));
     } catch (_) {}
   }

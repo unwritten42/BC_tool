@@ -1726,13 +1726,19 @@
       return {current,marker};
     }catch(_){return null;}
   }
+  function sameSingleResultFilter(initial,current){
+    if(current===initial)return true;
+    if(!/^'(?:[^']|'')+'\s+IS\s+'(?:[^']|'')*'$/i.test(initial))return false;
+    const qualified=current.match(/^'(?:[^']|'')+'\.\s*([\s\S]*)$/);
+    return !!qualified&&qualified[1]===initial;
+  }
   function singleResultSearchMismatch(job,href){
     const current=singleResultSearchScope(href),initial=job&&job.scope;
     if(!current||!initial)return job&&job.identity===singleResultSearchIdentity(href)?'':'identity-changed';
     if(current.route!==initial.route)return 'route-changed';
     if(current.company!==initial.company)return 'company-changed';
     if(current.page!==initial.page)return 'page-changed';
-    if(current.filter&&current.filter!==initial.filter)return 'filter-changed';
+    if(current.filter&&!sameSingleResultFilter(initial.filter,current.filter))return 'filter-changed';
     return '';
   }
   function createSingleResultJob(href){return {state:'pending',identity:singleResultSearchIdentity(href),scope:singleResultSearchScope(href),createdAt:Date.now()};}
@@ -1826,7 +1832,15 @@
     const label=`${el.getAttribute('aria-label')||''} ${el.getAttribute('title')||''}`.toLowerCase();
     return /\b(menu|more options|altre opzioni|ellipsis|ellissi|copy|copia|delete|elimina|edit|modifica|info|informazion)\b/.test(label);
   }
+  function openRecordAction(el){
+    return !!(el&&el.getAttribute&&/^(apri|open) record\b/i.test(el.getAttribute('title')||'')
+      &&singleVisible(el)&&!el.disabled&&el.getAttribute('aria-disabled')!=='true');
+  }
   function actionFor(row){
+    // BC's own "Open record" link opens the card even with a synthetic click; focus is usually outside the row.
+    const links=Array.from(row.querySelectorAll('a[title],[role="button"][title]')).filter(openRecordAction);
+    if(links.length===1)return {target:links[0],strategy:'open-record-click',count:1};
+    if(links.length>1)return null;
     const target=document.activeElement;
     if(!target||!target.isConnected||!singleVisible(target)
       ||(target!==row&&!row.contains(target)))return null;
@@ -1859,8 +1873,11 @@
   }
   function activateSingle(row,target,onAttempt){
     if(!row.isConnected||!target||!target.isConnected||!singleVisible(target)
-      ||(target!==row&&!row.contains(target))||document.activeElement!==target)return false;
+      ||(target!==row&&!row.contains(target)))return false;
+    const click=openRecordAction(target);
+    if(!click&&document.activeElement!==target)return false;
     if(onAttempt)onAttempt();
+    if(click){target.click();return true;}
     for(const type of ['keydown','keypress','keyup']){
       target.dispatchEvent(new KeyboardEvent(type,{key:'Enter',code:'Enter',keyCode:13,which:13,bubbles:true,cancelable:true,composed:true}));
     }
@@ -1913,7 +1930,7 @@
     const focusDetails={gridCount:1,rowCount:1,actionCount:current.action.count,strategy:current.action.strategy,...singleResultFocusMetadata(target)};
     if(!activateSingle(current.row,target,()=>{
       singleResultEvent('activation-attempted',{...focusDetails,eventTrusted:false,urlNormalized:true});
-      singleResultEvent('enter-sent-to-result-target',{...focusDetails,eventTrusted:false,urlNormalized:true});
+      if(current.action.strategy==='focused-enter')singleResultEvent('enter-sent-to-result-target',{...focusDetails,eventTrusted:false,urlNormalized:true});
     })){
       releaseUnactivatedSingleResultJob(job);
       singleResultEvent('single-row-action-pending',focusDetails);
@@ -1930,13 +1947,20 @@
       }
     }
     clearSingleResultJob(job);
-    singleResultEvent('activation-no-navigation',{...focusDetails,eventTrusted:false,reason:'no-navigation-after-synthetic-enter',urlNormalized:true});return 'no-navigation';
+    const reason=current.action.strategy==='open-record-click'?'no-navigation-after-open-record-click':'no-navigation-after-synthetic-enter';
+    singleResultEvent('activation-no-navigation',{...focusDetails,eventTrusted:false,reason,urlNormalized:true});return 'no-navigation';
   }
   async function processSingleResult(){
     const initial=pendingSingleResult();if(!initial)return;
     let previous='',previousTarget=null,stable=0,lastStatus='',sawUniqueRow=false;const started=Date.now();
     while(Date.now()-started<SINGLE_RESULT_PROCESS_TIMEOUT_MS){
       const job=pendingSingleResult();if(!job)return;
+      const sortBridge=singleResultAutoSortBridge(job,window.top.location.href,sharedSessionStorage());
+      if(sortBridge&&sortBridge.marker.active!==false){
+        if(lastStatus!=='sorting')singleResultEvent('busy',{reason:'autosort',urlNormalized:true});
+        lastStatus='sorting';stable=0;previous='';previousTarget=null;
+        await sleep(300);continue;
+      }
       const current=inspectSingle();
       if(current.rowCount===1)sawUniqueRow=true;
       if(current.status!==lastStatus){
